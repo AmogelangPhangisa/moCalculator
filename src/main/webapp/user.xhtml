@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{userBean.list}" look="default"  collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="md" styleClass="ui-fluid">
+                            <p:outputLabel value="#{userBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable value="#{userBean.users}" var="user" paginator="true" paginatorAlwaysVisible="false" reflow="true" rows="10">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <b:commandButton iconSize="lg" iconAwesome="fa-plus" look="primary" value="Add" action="#{userBean.addOrUpdate(null)}" update="@form"/>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+
+                        <p:column headerText="Added Date">
+                            <h:outputText value="#{user.createdDate}">
+                                <f:convertDateTime pattern="dd MMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Created By">
+                            <h:outputText value="#{user.createdBy}"/>
+                        </p:column>
+                        <p:column headerText="User Name">
+                            <h:outputText value="#{user.userName}"/>
+                        </p:column>
+                        <p:column headerText="system User Status">
+                            <h:outputText value="#{user.systemUserStatus.toString()}"/>
+                        </p:column>
+                        <p:column headerText="User Role">
+                            <h:outputText value="#{user.personType.toString()}"/>
+                        </p:column>
+                        <p:column headerText="Action" styleClass="large">
+                            <b:commandButton look="primary" size="xs" value="Edit" icon-size="xs" iconBrand="5.2.0" iconAwesome="fa-pencil"  action="#{userBean.addOrUpdate(user)}" update="@form"/>
+                            <p:spacer width="10px"/>
+                            <b:commandButton look="danger" size="xs" value="Del" icon-size="xs" iconBrand="5.2.0" iconAwesome="fa-trash" action="#{userBean.delete(user)}" update="@form"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{userBean.add}" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <p:outputLabel value="#{userBean.panelTitleName}" styleClass="panel-title-css"/>
+                    </f:facet>
+                    <b:panelGrid colSpans="6,6" size="md" styleClass="ui-fluid"> 
+                        <b:formGroup>
+                            <p:outputLabel value="User Name"/>
+                            <b:inputText value="#{userBean.entity.userName}" required="true" requiredMessage="Please enter description"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Password"/>
+                            <b:inputText value="#{userBean.entity.password}" required="true" requiredMessage="Please enter password"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Comfirm Password"/>
+                            <b:inputText value="#{userBean.entity.confirmPassword}" required="true" requiredMessage="Please enter comform password"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Status"/>
+                            <p:selectOneMenu label="Status" value= "#{userBean.entity.systemUserStatus}" filter="false" converter="entityConverter" requiredMessage="Please select system user status">
+                                <f:selectItem itemLabel="select one" noSelectionOption="true"/>
+                                <f:selectItems value="#{userBean.systemUserStatus}" var="systemUserStatus" itemLabel="#{systemUserStatus.toString()}" itemValue="#{systemUserStatus}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="System User Type"/>
+                            <p:selectOneMenu label="System User Type" value= "#{userBean.entity.personType}" filter="false" converter="entityConverter" requiredMessage="Please select system user status">
+                                <p:ajax event="change" listener="#{userBean.systemUserListener}" update="client"/>
+                                <f:selectItem itemLabel="select one" noSelectionOption="true"/>
+                                <f:selectItems value="#{userBean.personTypes}" var="systemUserType" itemLabel="#{systemUserType.toString()}" itemValue="#{systemUserType}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputPanel id="client">
+                                <b:formGroup rendered="#{userBean.clientVisible}">
+                                    <p:outputLabel value="Clients"/>
+                                    <p:selectOneMenu label="Clients" value= "#{userBean.entity.identifer}" filter="false" converter="entityConverter" requiredMessage="Please select client">
+                                        <f:selectItem itemLabel="select one" noSelectionOption="true"/>
+                                        <f:selectItems value="#{userBean.clients}" var="client" itemLabel="#{client.firstName} #{client.lastName} (#{client.clientId})" itemValue="#{client.clientId}"/>
+                                    </p:selectOneMenu>
+                                </b:formGroup>
+                            </p:outputPanel>
+                        </b:formGroup> 
+
+                    </b:panelGrid>
+                    <f:facet name="footer">
+                        <b:row>
+                            <b:panelGrid colSpans="6,6" size="md" styleClass="ui-fluid">
+                                <b:commandButton large-screen="full-width" size="md" value="Save" look="success" action="#{userBean.save(userBean.entity)}" update="@form" />
+                                <b:commandButton large-screen="full-width" size="md" value="Cancel" look="danger" action="#{userBean.cancel(userBean.entity)}" immediate="true" update="@form"/>
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>  
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

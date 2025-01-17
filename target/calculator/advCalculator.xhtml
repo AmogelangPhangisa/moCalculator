@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/logintemplate.xhtml">
+            <ui:define name="maincontent">  
+                <b:panelGrid offset-sm="3" offset-md="3" offset-lg="3" span="5" columns="1" colSpans="12" styleClass="ui-fluid">
+                    <p:fieldset style="width: 70%;" legend="ADAVANCED CALCULATOR">
+                        
+                      <h:form id="calcForm">
+            <div styleClass="calculator-container">                
+                <h:inputText id="expression" 
+                           value="#{advCalculatorBean.inputExpression}"
+                           styleClass="calc-input">
+                    <f:ajax execute="@this" render="@this"/>
+                </h:inputText>
+                
+                <div>
+                    <h:commandButton value="7" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('7')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="8" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('8')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="9" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('9')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="/" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('/')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                </div>
+                
+                <div>
+                    <h:commandButton value="4" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('4')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="5" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('5')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="6" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('6')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="*" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('*')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                </div>
+                
+                <div>
+                    <h:commandButton value="1" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('1')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="2" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('2')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="3" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('3')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="-" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('-')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                </div>
+                
+                <div>
+                    <h:commandButton value="0" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('0')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="." styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('.')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="(" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('(')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="+" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('+')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                </div>
+                
+                <div>
+                    <h:commandButton value="^" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('^')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="π" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('pi')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value=")" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression(')')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                    <h:commandButton value="e" styleClass="calc-button"
+                                   actionListener="#{advCalculatorBean.appendToExpression('e')}">
+                        <f:ajax execute="@this" render="expression"/>
+                    </h:commandButton>
+                </div>
+                
+                <div>
+                    <h:commandButton value="Clear" style="width: 110px; margin: 5px;"
+                                   actionListener="#{advCalculatorBean.clearExpression}">
+                        <f:ajax execute="@this" render="expression result"/>
+                    </h:commandButton>
+                    <h:commandButton value="Submit" style="width: 110px; margin: 5px;"
+                                   actionListener="#{advCalculatorBean.calculate}">
+                        <f:ajax execute="@form" render="result"/>
+                    </h:commandButton>
+                </div>
+                
+                <div class="calc-result">
+                    <h:outputText id="result" value="#{advCalculatorBean.result}"/>
+                </div>
+            </div>
+        </h:form>
+
+                    </p:fieldset>
+                </b:panelGrid>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

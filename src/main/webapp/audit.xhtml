@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{auditBean.list}" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="md" styleClass="ui-fluid">
+                            <p:outputLabel value="Calculator Audit Log" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    
+                    <p:dataTable value="#{auditBean.collections}" var="audit" 
+                                paginator="true" paginatorAlwaysVisible="true" 
+                                reflow="true" rows="10">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <b:panelGrid colSpans="3,3,3,3" size="md">
+                                        <b:formGroup>
+                                            <p:outputLabel value="From Date"/>
+                                            <p:calendar id="fromDate" value="#{auditBean.fromDate}" 
+                                                      pattern="dd MMM yyyy HH:mm" />
+                                        </b:formGroup>
+                                        
+                                        <b:formGroup>
+                                            <p:outputLabel value="To Date"/>
+                                            <p:calendar id="toDate" value="#{auditBean.toDate}" 
+                                                      pattern="dd MMM yyyy HH:mm" />
+                                        </b:formGroup>
+                                        
+                                        <b:commandButton value="Search" look="primary"
+                                                       action="#{auditBean.search}" 
+                                                       update="@form"/>
+                                        
+                                        <b:commandButton value="Clear" look="info"
+                                                       action="#{auditBean.loadAudits}" 
+                                                       update="@form"/>
+                                    </b:panelGrid>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        
+                        <p:column headerText="Created Date">
+                            <h:outputText value="#{audit.createdDate}">
+                                <f:convertDateTime pattern="dd MMM yyyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Created by">
+                            <h:outputText value="#{audit.createdBy}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Expression">
+                            <h:outputText value="#{audit.expression}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Result">
+                            <h:outputText value="#{audit.result}"/>
+                        </p:column>
+                        
+                        <p:column headerText="User">
+                            <h:outputText value="#{audit.user.userName}"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
